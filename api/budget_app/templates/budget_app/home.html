@@ -1,0 +1,30 @@
+{% extends 'budget_app/base.html' %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+    <h1 class="display-3 mb-4">Welcome to Budget-Tracker App</h1>
+    <p class="lead">This is a budget tracker app made keeping simplicity in mind. <br>
+        The main purpose of this app is to give you a visualisation of your spendings in a beautiul way</p>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+    <p>Get started by taking a detailed look at all your items</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'items' %}" role="button"> Items </a>
+    </p>
+    {% else %}
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'loginuser' %}" role="button"> Login </a>
+    </p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'signupuser' %}" role="button"> Signup </a>
+    </p>
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+
+{%endblock%}

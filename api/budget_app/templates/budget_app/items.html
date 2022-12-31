@@ -1,0 +1,103 @@
+{% extends 'budget_app/base.html' %}
+
+{% block scripts %}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for d in dups %}'{{ d.title }}', {% endfor %}],
+        datasets: [{
+            // label: '₹',
+            label: `You spent ₹`,
+            data: [{% for d in dups %}'{{d.amount__sum }}', {% endfor %}],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+        borderWidth: 1
+        }]
+            },
+        options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        legend: {
+            display: false //To hod the label at top of chart
+        }
+    }
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col">
+        <a href="{% url 'addItem' %}" style="color: white;">
+            <button class="btn btn-primary mb-3 shadow-sm rounded">
+                Add Items
+            </button>
+        </a>
+        {% for item in items %}
+        <div class="row ">
+            <div class="col mx-auto">
+                <div class="card bg-light mb-4 shadow rounded">
+                    <div class="card-body px-4">
+                        <h4 class="card-title p-0 mx-auto"> {{item.title|capfirst }} </h4>
+                        <p class="card-text">
+                            ₹ {{item.amount}} <br>
+                            <span class="text-muted">
+                                {{item.date|date:'j M Y'}} <br>
+                            </span>
+                        </p>
+                        <a href="{% url 'updateItem' item.id %}" <button class="btn btn-info btn-sm shadow-sm rounded">
+                            Update
+                            </button>
+                        </a>
+                        <a href="{% url 'deleteItem' item.id %}">
+                            <button class="btn btn-danger btn-sm shadow-sm rounded mx-2">
+                                Delete
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col">
+        <form method="POST" class="mb-5">
+            {% csrf_token %}
+            {{form.month_number}}
+        </form>
+        <div class="container-fluid">
+            <canvas id="myChart" width="700" height="600" class="mr-10 responsive"></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

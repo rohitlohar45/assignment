@@ -1,0 +1,19 @@
+{% extends 'budget_app/base.html' %}
+{% block content %}
+
+<h3>Are you sure you want to delete <i>"<u>{{item}}</u>"</i> ?</h3>
+
+<form method="POST" class="mt-4">
+    {% csrf_token %}
+    <input type="submit" value="Confirm" class="btn btn-danger shadow-sm rounded">
+    <br><br>
+    <a href="{% url 'items' %}">
+        <button type="button" class="btn btn-success shadow-sm rounded"> Go Back </button>
+    </a>
+</form>
+{% endblock %}
+
+
+{% block footer %}
+
+{%endblock%}
